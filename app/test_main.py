@@ -97,7 +97,12 @@ def test_stats_endpoint_error_data(test_db):
 
 def test_smallest_endpoint_unique_array(test_db):
     array = [1,2,3,4,5]
-    assert db.query(models.Record).filter_by(array=json.dumps(array)).all() == []
-    response = client.post("/smallest",json={"array": array})
-    assert response.status_code == 200
-    assert db.query(models.Record).filter_by(array=json.dumps(array)).all() != []    
+    assert len(db.query(models.Record).filter_by(array=json.dumps(array)).all()) == 0
+
+    response1 = client.post("/smallest",json={"array": array})
+    assert response1.status_code == 200
+    assert len(db.query(models.Record).filter_by(array=json.dumps(array)).all()) == 1    
+
+    response2 = client.post("/smallest",json={"array": array})
+    assert response2.status_code == 200
+    assert len(db.query(models.Record).filter_by(array=json.dumps(array)).all()) == 1    
