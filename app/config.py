@@ -3,7 +3,7 @@ from pydantic import BaseSettings
 from functools import lru_cache
 
 class Settings(BaseSettings):
-    DATABASE_URL: str
+    SQLALCHEMY_DATABASE_URL: str
 
     class Config:
         env_file = ".env"
