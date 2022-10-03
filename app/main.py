@@ -60,10 +60,14 @@ async def smallest(input:Array, db: Session = Depends(get_db)):
         if records:
             return {"result": records[0].result}
         else:
-            for i in range(1, 100001):
-                if i not in input.array:
+            i = 1
+            values = set(input.array)
+            while True: # O(n)
+                if i not in values: # O(1)
                     result = i
                     break
+                else:
+                    i = i + 1
             crud.create_record(db, record=schemas.RecordCreate(array=json.dumps(input.array), result=result))
             return {"result": result}
 
